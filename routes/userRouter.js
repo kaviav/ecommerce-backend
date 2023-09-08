@@ -1,9 +1,11 @@
 import express from "express";
-import { auth } from "../controllers/userControllers";
+import { update } from "../controllers/userControllers";
+import { verifyTokenAndAuthorization } from "../middlewares/verifyToken";
 
 const userRouter = express.Router();
 
-userRouter.post("/auth", auth);
+// api endpoint, middlewares, api or controller functn
+userRouter.put("/update/:id", verifyTokenAndAuthorization, update); // http://localhost:5000/user/update/:id
 
 // userRouter.get("/getone", (req, res) => {
 //   res.send("welcome to userRouter");
