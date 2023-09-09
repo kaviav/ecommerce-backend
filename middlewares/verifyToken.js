@@ -9,7 +9,7 @@ export const verifyToken = (req, res, next) => {
         res.status(403).json("Token is not valid");
       }
       req.user = user; // user contains id and isAdmin properties of User model
-      // next(); //
+      next();
     });
   } else {
     return res.status(401).json("you are not authenticated");
@@ -25,3 +25,15 @@ export const verifyTokenAndAuthorization = (req, res, next) => {
     }
   });
 };
+
+export const verifyTokenAndAdmin = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.user.isAdmin) {
+      next();
+    } else {
+      res.status(403).json("You are not allowed to do that");
+    }
+  });
+};
+//Vishnu Sathyanathan6:12 PM
+// Middleware functions are functions that have access to the request object ( req ), the response object ( res ), and the next function in the application's request-response cycle. The next function is a function in the Express router which, when invoked, executes the middleware succeeding the current middleware
