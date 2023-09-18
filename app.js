@@ -1,21 +1,27 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRouter";
 import authRouter from "./routes/authRouter";
 import productRouter from "./routes/productRouter";
 import cartRouter from "./routes/cartRouter";
+import orderRouter from "./routes/orderRouter";
+import stripeRouter from "./routes/stripeRouter";
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
 //
+app.use(cors());
 app.use(express.json());
 app.use("/user", userRouter);
 app.use("/auth", authRouter);
 app.use("/product", productRouter);
 app.use("/cart", cartRouter);
+app.use("/order", orderRouter);
+app.use("/checkout", stripeRouter);
 
 //
 mongoose
