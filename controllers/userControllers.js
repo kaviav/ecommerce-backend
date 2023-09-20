@@ -59,13 +59,10 @@ export const getAll = async (req, res, next) => {
 export const userStats = async (req, res, next) => {
   const date = new Date();
   const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
+
   try {
     const data = await User.aggregate([
-      {
-        $match: {
-          createdAt: { $gte: lastYear },
-        },
-      },
+      { $match: { createdAt: { $gte: lastYear } } },
       {
         $project: {
           month: { $month: "$createdAt" },
@@ -75,7 +72,6 @@ export const userStats = async (req, res, next) => {
         $group: {
           _id: "$month",
           total: { $sum: 1 },
-          //groups based on the total number of users per month and the id of the group will be the month itself
         },
       },
     ]);
