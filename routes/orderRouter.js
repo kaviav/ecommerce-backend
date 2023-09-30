@@ -9,6 +9,7 @@ import {
   getAllOrders,
   getIncome,
   getUserOrders,
+  getlatestUserOrder,
   newOrder,
   updateOrder,
 } from "../controllers/orderControllers";
@@ -19,6 +20,11 @@ orderRouter.post("/add", verifyToken, newOrder);
 orderRouter.put("/update/:id", verifyTokenAndAdmin, updateOrder);
 orderRouter.delete("delete/:id", verifyTokenAndAdmin, deleteOrder);
 orderRouter.get("/userorders/:id", verifyTokenAndAuthorization, getUserOrders);
+orderRouter.get(
+  "/latestorder/:id",
+  verifyTokenAndAuthorization,
+  getlatestUserOrder
+);
 orderRouter.get("/allorders", verifyTokenAndAdmin, getAllOrders);
 orderRouter.get("/getincome", verifyTokenAndAdmin, getIncome);
 

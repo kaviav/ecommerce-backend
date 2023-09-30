@@ -38,12 +38,34 @@ export const getUserOrders = async (req, res, next) => {
   const userId = req.params.id;
 
   try {
-    const order = await Order.findById(userId);
+    const order = await Order.find({ userId }); //very IMPT findne helps to search by anykey in mongodb
     console.log(order);
     return res.status(200).json(order);
   } catch (err) {
     return res.status(500).json(err);
   }
+};
+
+export const getlatestUserOrder = async (req, res, next) => {
+  const userId = req.params.id;
+
+  try {
+    // Find the latest order for the specified user
+    const latestOrder = await Order.findOne({ userId }).sort({
+      createdAt: -1,
+    });
+
+    if (!latestOrder) {
+      return res.status(404).json({ message: "User has no orders" });
+    }
+
+    res.status(200).json(latestOrder);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+
+  //By sorting createdAt in descending order (-1), you ensure that the order with the most recent createdAt timestamp (i.e., the latest order) will be returned as the result.
+  // So, the use of -1 here ensures that the most recent order appears at the top of the sorted results, making it the "latest" order for that user.
 };
 
 //get all cart
