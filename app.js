@@ -8,6 +8,7 @@ import productRouter from "./routes/productRouter";
 import cartRouter from "./routes/cartRouter";
 import orderRouter from "./routes/orderRouter";
 import stripeRouter from "./routes/stripeRouter";
+import contactRouter from "./routes/contactRouter";
 
 dotenv.config();
 const app = express();
@@ -22,6 +23,7 @@ app.use("/product", productRouter);
 app.use("/cart", cartRouter);
 app.use("/order", orderRouter);
 app.use("/checkout", stripeRouter);
+app.use("/mail", contactRouter);
 
 //
 mongoose

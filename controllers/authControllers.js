@@ -3,7 +3,7 @@ import CryptoJS from "crypto-js";
 import jwt from "jsonwebtoken";
 
 export const signUp = async (req, res) => {
-  const { username, email, password, image } = req.body;
+  const { username, email, password, confirmPassword, image } = req.body;
   const newUser = new User({
     username,
     email,
