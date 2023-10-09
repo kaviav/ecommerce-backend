@@ -66,42 +66,56 @@ export const getAll = async (req, res, next) => {
   }
 };
 
-export const addRemoveWishlist = async (req, res) => {
+export const addWishlist = async (req, res) => {
   const userId = req.params.id;
-  const { wishlisted, item } = req.body;
-  console.log(item._id);
-  console.log(wishlisted);
-  const id = item._id;
-
+  const { item } = req.body;
+  console.log(item);
   try {
-    // Find the user by userId
     const user = await User.findById(userId);
-
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Check if the product is already in the wishlist
-
-    const index = user.wishlist.indexOf(item); // -1
-    console.log(index);
-
-    if (wishlisted) {
-      // If wishlisted is true, add the product to the wishlist if it's not already there
-      if (index === -1) {
-        user.wishlist.push(item);
-        await user.save();
-      }
-    } else {
-      if (index !== -1) {
-        user.wishlist.splice(index, 1);
-        await user.save();
-      }
+    // Check if the item is already in the wishlist
+    if (user.wishlist.includes(item)) {
+      return res
+        .status(400)
+        .json({ message: "Item is already in the wishlist" });
     }
 
+    user.wishlist.push(item);
+    await user.save();
     return res
       .status(200)
-      .json({ message: "Wishlist updated successfully", user });
+      .json({ message: "Item added to wishlist successfully", user });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Something went wrong", error: err });
+  }
+};
+
+export const removeWishlist = async (req, res) => {
+  const userId = req.params.id;
+  const { item } = req.body;
+  console.log(item);
+  // const id = item._id;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the item is in the wishlist
+    const itemIndex = user.wishlist.indexOf(item);
+    // console.log(itemIndex);
+
+    // Remove the item from the wishlist using splice
+    user.wishlist.splice(itemIndex, 1);
+    await user.save();
+    return res
+      .status(200)
+      .json({ message: "Item removed from wishlist successfully", user, item });
   } catch (err) {
     return res
       .status(500)
