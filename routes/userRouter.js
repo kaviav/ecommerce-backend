@@ -1,10 +1,28 @@
 import express from "express";
-import { auth } from "../controllers/userControllers";
+import {
+  deleteUser,
+  getAll,
+  getUser,
+  updateUser,
+  userStats,
+} from "../controllers/userControllers";
+import {
+  verifyTokenAndAdmin,
+  verifyTokenAndAuthorization,
+} from "../middlewares/verifyToken";
 
 const userRouter = express.Router();
 
-userRouter.post("/auth", auth);
+// api endpoint, middlewares, api or controller functn
+userRouter.put("/update/:id", verifyTokenAndAuthorization, updateUser); // http://localhost:5000/user/update/:id
+userRouter.delete("/delete/:id", verifyTokenAndAuthorization, deleteUser);
+userRouter.get("/getone/:id", verifyTokenAndAdmin, getUser);
+userRouter.get("/getall", verifyTokenAndAdmin, getAll);
+userRouter.get("/getstats", verifyTokenAndAdmin, userStats);
 
+export default userRouter;
+
+//
 // userRouter.get("/getone", (req, res) => {
 //   res.send("welcome to userRouter");
 // });
@@ -14,4 +32,3 @@ userRouter.post("/auth", auth);
 //   res.send("your username is " + username);
 //   console.log(username);
 // });
-export default userRouter;

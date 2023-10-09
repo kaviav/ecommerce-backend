@@ -23,6 +23,12 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    image: {
+      type: String,
+    },
+    wishlist: {
+      type: Array,
+    },
   },
   {
     timestamps: true,
