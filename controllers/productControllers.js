@@ -123,15 +123,14 @@ export const removeWishlist = async (req, res) => {
   }
 };
 
-// export const addRemoveWishlist = async (req, res) => {
-//   const userId = req.params.userId;
-//   const { wishlisted, item } = req.body;
-//   const product = item;
-//   try {
-//     //if(wishlisted){
-//     //first find the user and add this product to user's wishlist array}
-//     //else{find the user and remove this item from user's wishlist}
-//   } catch (err) {
-//     return res.status(500).json({ message: "Something went wrong", err });
-//   }
-// };
+export const getAllWishlist = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await User.findById(id);
+
+    const wishlist = user.wishlist;
+    return res.status(200).json(wishlist);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
