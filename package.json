@@ -5,7 +5,8 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon --experimental-modules --es-module-specifier-resolution=node app.js"
+    "start": "nodemon --experimental-modules --es-module-specifier-resolution=node app.js",
+    "build": "npm i" 
   },
   "author": "",
   "license": "ISC",
